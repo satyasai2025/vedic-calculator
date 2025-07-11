@@ -1,123 +1,319 @@
-{% extends "bootstrap_base.html" %}
-{% block content %}
-<div class="container py-5">
-    <h2 class="mb-4 text-center text-light">🪐 Birth Chart for {{ chart.name or 'Anonymous' }}</h2>
-    <div class="row mb-4">
-        <div class="col-md-6 text-light">
-            <ul class="list-group bg-dark">
-                <li class="list-group-item bg-dark text-light">Date: {{ chart.date }}</li>
-                <li class="list-group-item bg-dark text-light">Time: {{ chart.time }}</li>
-                <li class="list-group-item bg-dark text-light">Coordinates: {{ chart.latitude }}, {{ chart.longitude }}</li>
-                <li class="list-group-item bg-dark text-light">Ayanamsa: {{ chart.ayanamsa|capitalize }} ({{ chart.ayanamsa_val }})</li>
-            </ul>
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birth Chart - {{ name }} - Vedic Astrology</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="bi bi-stars"></i> Vedic Astrology
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="bi bi-arrow-left"></i> New Chart
+                </a>
+            </div>
         </div>
-        <div class="col-md-6 text-light">
-            <h4>Legend</h4>
-            <small>
-                <span class="badge bg-warning text-dark">C</span> Combust |
-                <span class="badge bg-info text-dark">R</span> Retrograde |
-                <span class="badge bg-success text-dark">D</span> Direct |
-                <span class="badge bg-danger text-light">E</span> Eclipse
-            </small>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Chart Header -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title mb-0">
+                    <i class="bi bi-person-star"></i> Birth Chart for {{ name }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-calendar-event"></i> Birth Details</h5>
+                        <p><strong>Date & Time:</strong> {{ chart.local_datetime.split('T')[0] }} at {{ chart.local_datetime.split('T')[1].split('.')[0].split('+')[0].split('-')[0] }} ({{ chart.timezone }})</p>
+                        <p><strong>Location:</strong> {{ chart.location_name if chart.location_name else 'Unknown Location' }}</p>
+                        <p><strong>Coordinates:</strong> {{ "%.4f"|format(chart.location.latitude) }}°N, {{ "%.4f"|format(chart.location.longitude) }}°E</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="bi bi-compass"></i> Astrological Data</h5>
+                        <p><strong>Ayanamsa ({{ chart.ayanamsa_name if chart.ayanamsa_name else 'Lahiri' }}):</strong> {{ "%.4f"|format(chart.ayanamsa) }}°</p>
+                        {% if chart.houses %}
+                        <p><strong>Ascendant:</strong> {{ "%.2f"|format(chart.houses.ascendant.degree) }}° {{ chart.houses.ascendant.sign }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Planetary Positions -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-globe"></i> Planetary Positions
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Body</th>
+                                <th>Longitude</th>
+                                <th>Nakshatra</th>
+                                <th>Pada</th>
+                                <th>Rasi</th>
+                                <th>Navamsa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Lagna (Ascendant) -->
+                            {% if chart.houses %}
+                            <tr>
+                                <td><strong>Lagna</strong></td>
+                                <td>{{ chart.houses.ascendant.longitude_formatted }}</td>
+                                <td>{{ chart.houses.ascendant.nakshatra_abbr if chart.houses.ascendant.nakshatra_abbr else 'N/A' }}</td>
+                                <td>{{ chart.houses.ascendant.pada if chart.houses.ascendant.pada else 'N/A' }}</td>
+                                <td>{{ chart.houses.ascendant.sign_abbr }}</td>
+                                <td>{{ chart.houses.ascendant.navamsa_abbr }}</td>
+                            </tr>
+                            {% endif %}
+                            
+                            <!-- Planets -->
+                            {% for planet_name, planet_data in chart.planets.items() %}
+                            <tr>
+                                <td>
+                                    <strong>{{ planet_name }}</strong>
+                                    {% if chart.karakas and chart.karakas[planet_name] %}
+                                    - {{ chart.karakas[planet_name] }}
+                                    {% endif %}
+                                    {% if planet_data.status %}
+                                    <span class="badge bg-info ms-1">[{{ planet_data.status }}]</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ planet_data.longitude_formatted }}</td>
+                                <td>{{ planet_data.nakshatra_abbr }}</td>
+                                <td>{{ planet_data.pada }}</td>
+                                <td>{{ planet_data.sign_abbr }}</td>
+                                <td>{{ planet_data.navamsa_abbr }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nakshatras Summary -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-star"></i> Nakshatra Summary
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for planet_name, planet_data in chart.planets.items() %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="bi bi-dot"></i> {{ planet_name }}
+                                </h6>
+                                <p class="card-text">
+                                    <strong>{{ planet_data.nakshatra }}</strong><br>
+                                    <small class="text-muted">Pada {{ planet_data.pada }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Planet Status Legend -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-info-circle"></i> Planet Status Indicators
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>[C]</strong> - Combust (too close to Sun)</p>
+                        <p><strong>[D]</strong> - Direct motion</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>[R]</strong> - Retrograde motion</p>
+                        <p><strong>[E]</strong> - Eclipse (near lunar nodes)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Transits -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-arrow-clockwise"></i> Current Planetary Transits
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Date:</strong> {{ chart.current_transits.date if chart.current_transits else 'N/A' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Time:</strong> {{ chart.current_transits.time if chart.current_transits else 'N/A' }}</p>
+                    </div>
+                </div>
+                {% if chart.current_transits and chart.current_transits.planets %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Planet</th>
+                                <th>Current Position</th>
+                                <th>Nakshatra</th>
+                                <th>Pada</th>
+                                <th>Rasi</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for planet_name, planet_data in chart.current_transits.planets.items() %}
+                            <tr>
+                                <td><strong>{{ planet_name }}</strong></td>
+                                <td>{{ planet_data.longitude_formatted }}</td>
+                                <td>{{ planet_data.nakshatra_abbr }}</td>
+                                <td>{{ planet_data.pada }}</td>
+                                <td>{{ planet_data.sign_abbr }}</td>
+                                <td>
+                                    {% if planet_data.status %}
+                                    <span class="badge bg-info">[{{ planet_data.status }}]</span>
+                                    {% else %}
+                                    <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Vimshottari Dasha -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-clock-history"></i> Vimshottari Dasha
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if chart.current_dasha %}
+                <div class="alert alert-success">
+                    <h5><i class="bi bi-play-circle"></i> Current Dasha Periods</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Maha Dasha:</strong> {{ chart.current_dasha.lord }} 
+                            <small>({{ chart.current_dasha.start_date.strftime('%Y-%m-%d') }} - {{ chart.current_dasha.end_date.strftime('%Y-%m-%d') }})</small>
+                        </div>
+                        {% if chart.current_dasha.current_antara %}
+                        <div class="col-6">
+                            <strong>Antara Dasha:</strong> {{ chart.current_dasha.current_antara.lord }}
+                            <small>({{ chart.current_dasha.current_antara.start_date.strftime('%Y-%m-%d') }} - {{ chart.current_dasha.current_antara.end_date.strftime('%Y-%m-%d') }})</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if chart.current_dasha.current_antara and chart.current_dasha.current_antara.current_pratyantara %}
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <strong>Pratyantara Dasha:</strong> {{ chart.current_dasha.current_antara.current_pratyantara.lord }}
+                            <small>({{ chart.current_dasha.current_antara.current_pratyantara.start_date.strftime('%Y-%m-%d') }} - {{ chart.current_dasha.current_antara.current_pratyantara.end_date.strftime('%Y-%m-%d') }})</small>
+                        </div>
+                        {% if chart.current_dasha.current_antara.current_pratyantara.current_sookshma %}
+                        <div class="col-6">
+                            <strong>Sookshma Dasha:</strong> {{ chart.current_dasha.current_antara.current_pratyantara.current_sookshma.lord }}
+                            <small>({{ chart.current_dasha.current_antara.current_pratyantara.current_sookshma.start_date.strftime('%Y-%m-%d') }} - {{ chart.current_dasha.current_antara.current_pratyantara.current_sookshma.end_date.strftime('%Y-%m-%d') }})</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="bg-light p-3 rounded">
+                    <h5 class="mb-3">Maha Dasas:</h5>
+                    <div class="font-monospace">
+                        {% for dasha in chart.dasha_timeline %}
+                        <div class="mb-2 {% if chart.current_dasha and dasha.lord == chart.current_dasha.lord %}text-success fw-bold{% endif %}">
+                            {{ dasha.lord_abbr }}: {{ dasha.start_date.strftime('%Y-%m-%d') }} ({{ dasha.start_date.strftime('%I:%M:%S %p').lower() }}) - {{ dasha.end_date.strftime('%Y-%m-%d') }} ({{ dasha.end_date.strftime('%I:%M:%S %p').lower() }})
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- House Positions -->
+        {% if chart.houses %}
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="bi bi-house"></i> House Cusps
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for i in range(12) %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">House {{ i + 1 }}</h6>
+                                <p class="card-text">
+                                    {{ "%.2f"|format(chart.houses.cusps[i]) }}°
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    <h3 class="text-light">Planetary Positions</h3>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>Planet</th>
-                <th>Degree</th>
-                <th>Sign</th>
-                <th>Nakshatra</th>
-                <th>Pada</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in chart.planets %}
-            <tr>
-                <td>{{ p.planet }}</td>
-                <td>{{ p.degree }}</td>
-                <td>{{ p.sign }}</td>
-                <td>{{ p.nakshatra }}</td>
-                <td>{{ p.pada }}</td>
-                <td>
-                    {% if "C" in p.status %}<span class="badge bg-warning text-dark">C</span>{% endif %}
-                    {% if "R" in p.status %}<span class="badge bg-info text-dark">R</span>{% endif %}
-                    {% if "D" in p.status %}<span class="badge bg-success text-dark">D</span>{% endif %}
-                    {% if "E" in p.status %}<span class="badge bg-danger text-light">E</span>{% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3 class="text-light mt-4">House Placements</h3>
-    <table class="table table-dark table-bordered">
-        <thead>
-            <tr>
-                <th>House</th>
-                <th>Degree</th>
-                <th>Sign</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for h in chart.houses %}
-            <tr>
-                <td>{{ h.house }}</td>
-                <td>{{ h.degree|round(2) }}</td>
-                <td>{{ h.sign }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3 class="text-light mt-4">Vimshottari Dasha Periods</h3>
-    <table class="table table-dark table-bordered">
-        <thead>
-            <tr>
-                <th>Dasha Lord</th>
-                <th>Start</th>
-                <th>End</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for d in vimshottari %}
-            <tr>
-                <td>{{ d.dasha_lord }}</td>
-                <td>{{ d.start }}</td>
-                <td>{{ d.end }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3 class="text-light mt-4">Current Transits</h3>
-    <table class="table table-dark table-bordered">
-        <thead>
-            <tr>
-                <th>Planet</th>
-                <th>Degree</th>
-                <th>Sign</th>
-                <th>Nakshatra</th>
-                <th>Pada</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for t in transits %}
-            <tr>
-                <td>{{ t.planet }}</td>
-                <td>{{ t.degree }}</td>
-                <td>{{ t.sign }}</td>
-                <td>{{ t.nakshatra }}</td>
-                <td>{{ t.pada }}</td>
-                <td>
-                    {% if "C" in t.status %}<span class="badge bg-warning text-dark">C</span>{% endif %}
-                    {% if "R" in t.status %}<span class="badge bg-info text-dark">R</span>{% endif %}
-                    {% if "D" in t.status %}<span class="badge bg-success text-dark">D</span>{% endif %}
-                    {% if "E" in t.status %}<span class="badge bg-danger text-light">E</span>{% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Chart Interpretation</h5>
+                    <p>
+                        This chart shows sidereal planetary positions calculated using Swiss Ephemeris with 
+                        Lahiri ayanamsa. The Vimshottari Dasha system provides timing for planetary periods 
+                        based on the Moon's nakshatra at birth.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Legend</h5>
+                    <ul class="list-unstyled">
+                        <li><span class="badge bg-warning text-dark">R</span> Retrograde Planet</li>
+                        <li><span class="badge bg-success">Current</span> Active Dasha Period</li>
+                        <li><strong>Pada:</strong> Nakshatra quarter (1-4)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
