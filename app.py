@@ -11,11 +11,16 @@ def index():
 
             # Check for missing data
             if not (birth_date and birth_time and latitude and longitude and ayanamsa):
-                return "Missing required fields", 400
+                error_msg = "Missing required fields. Please provide all details."
+                return render_template('index.html', error=error_msg), 400
 
             # Validate lat/lng
-            latitude = float(latitude)
-            longitude = float(longitude)
+            try:
+                latitude = float(latitude)
+                longitude = float(longitude)
+            except ValueError:
+                error_msg = "Invalid latitude or longitude. Please select a location on the map."
+                return render_template('index.html', error=error_msg), 400
 
             # TimezoneFinder, astrology calculations, etc.
             tf = TimezoneFinder()
@@ -38,7 +43,6 @@ def index():
         except Exception as e:
             # Print error to Render logs for debugging
             print(f"Error in form submission: {e}")
-            return f"Error: {str(e)}", 500
+            error_msg = f"An error occurred: {str(e)}"
+            return render_template('index.html', error=error_msg), 500
     return render_template('index.html')
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
