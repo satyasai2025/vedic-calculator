@@ -1,0 +1,40 @@
+{% extends "bootstrap_base.html" %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center text-light">🪐 Vedic Astrology Birth Chart Calculator</h2>
+    <form method="POST" id="birthChartForm" class="card bg-dark p-4 text-light">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name (optional)</label>
+            <input type="text" class="form-control" id="name" name="name" autocomplete="off">
+        </div>
+        <div class="mb-3">
+            <label for="birth_date" class="form-label">Birth Date</label>
+            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+        </div>
+        <div class="mb-3">
+            <label for="birth_time" class="form-label">Birth Time (24-hour)</label>
+            <input type="time" class="form-control" id="birth_time" name="birth_time" required>
+        </div>
+        <div class="mb-3 row">
+            <div class="col">
+                <label for="latitude" class="form-label">Latitude</label>
+                <input type="number" step="0.0001" class="form-control" id="latitude" name="latitude" required>
+            </div>
+            <div class="col">
+                <label for="longitude" class="form-label">Longitude</label>
+                <input type="number" step="0.0001" class="form-control" id="longitude" name="longitude" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="ayanamsa" class="form-label">Ayanamsa</label>
+            <select class="form-select" id="ayanamsa" name="ayanamsa" required>
+                <option value="lahiri">Lahiri</option>
+                <option value="krishnamurti">Krishnamurti</option>
+                <option value="raman">Raman</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Calculate Chart</button>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
