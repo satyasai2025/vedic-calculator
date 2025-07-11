@@ -1,0 +1,273 @@
+{
+  "name": "Sample Person",
+  "birth_datetime": "1990-01-15T10:30:00+00:00",
+  "location": {
+    "latitude": 28.6139,
+    "longitude": 77.209,
+    "name": "New Delhi, India",
+    "timezone": "Asia/Kolkata"
+  },
+  "ayanamsa": {
+    "name": "Lahiri",
+    "value": 23.717958736411106
+  },
+  "planets": {
+    "Sun": {
+      "longitude": 271.2966540241785,
+      "sign": "Capricorn",
+      "sign_abbr": "Cp",
+      "degree": 1.2966540241785083,
+      "longitude_formatted": "1 Cp 17' 47.95\"",
+      "nakshatra": "Uttara Ashadha",
+      "nakshatra_abbr": "USha",
+      "pada": 2,
+      "navamsa": "Capricorn",
+      "navamsa_abbr": "Cp",
+      "house": 7,
+      "status": "",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Moon": {
+      "longitude": 143.00167853486536,
+      "sign": "Leo",
+      "sign_abbr": "Le",
+      "degree": 23.001678534865363,
+      "longitude_formatted": "23 Le 0' 6.04\"",
+      "nakshatra": "Purva Phalguni",
+      "nakshatra_abbr": "PPha",
+      "pada": 3,
+      "navamsa": "Libra",
+      "navamsa_abbr": "Li",
+      "house": 3,
+      "status": "",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Mars": {
+      "longitude": 236.1466415577329,
+      "sign": "Scorpio",
+      "sign_abbr": "Sc",
+      "degree": 26.14664155773289,
+      "longitude_formatted": "26 Sc 8' 47.91\"",
+      "nakshatra": "Jyeshtha",
+      "nakshatra_abbr": "Jye",
+      "pada": 3,
+      "navamsa": "Aquarius",
+      "navamsa_abbr": "Aq",
+      "house": 6,
+      "status": "D",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Mercury": {
+      "longitude": 257.6716798578816,
+      "sign": "Sagittarius",
+      "sign_abbr": "Sg",
+      "degree": 17.6716798578816,
+      "longitude_formatted": "17 Sg 40' 18.05\"",
+      "nakshatra": "Purva Ashadha",
+      "nakshatra_abbr": "PSha",
+      "pada": 2,
+      "navamsa": "Virgo",
+      "navamsa_abbr": "Vi",
+      "house": 7,
+      "status": "C D",
+      "combust": true,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Jupiter": {
+      "longitude": 69.65543885230653,
+      "sign": "Gemini",
+      "sign_abbr": "Ge",
+      "degree": 9.655438852306532,
+      "longitude_formatted": "9 Ge 39' 19.58\"",
+      "nakshatra": "Ardra",
+      "nakshatra_abbr": "Ardr",
+      "pada": 1,
+      "navamsa": "Sagittarius",
+      "navamsa_abbr": "Sg",
+      "house": 1,
+      "status": "D",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Venus": {
+      "longitude": 277.00484139774746,
+      "sign": "Capricorn",
+      "sign_abbr": "Cp",
+      "degree": 7.004841397747455,
+      "longitude_formatted": "7 Cp 0' 17.43\"",
+      "nakshatra": "Uttara Ashadha",
+      "nakshatra_abbr": "USha",
+      "pada": 4,
+      "navamsa": "Pisces",
+      "navamsa_abbr": "Pi",
+      "house": 7,
+      "status": "C D",
+      "combust": true,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Saturn": {
+      "longitude": 263.5891881946851,
+      "sign": "Sagittarius",
+      "sign_abbr": "Sg",
+      "degree": 23.589188194685107,
+      "longitude_formatted": "23 Sg 35' 21.08\"",
+      "nakshatra": "Purva Ashadha",
+      "nakshatra_abbr": "PSha",
+      "pada": 4,
+      "navamsa": "Scorpio",
+      "navamsa_abbr": "Sc",
+      "house": 7,
+      "status": "C D",
+      "combust": true,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Rahu": {
+      "longitude": 293.9791925853887,
+      "sign": "Capricorn",
+      "sign_abbr": "Cp",
+      "degree": 23.979192585388716,
+      "longitude_formatted": "23 Cp 58' 45.09\"",
+      "nakshatra": "Dhanishta",
+      "nakshatra_abbr": "Dhan",
+      "pada": 1,
+      "navamsa": "Leo",
+      "navamsa_abbr": "Le",
+      "house": 8,
+      "status": "",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    },
+    "Ketu": {
+      "longitude": 113.97919258538872,
+      "sign": "Cancer",
+      "sign_abbr": "Cn",
+      "degree": 23.979192585388716,
+      "longitude_formatted": "23 Cn 58' 45.09\"",
+      "nakshatra": "Ashlesha",
+      "nakshatra_abbr": "Asre",
+      "pada": 3,
+      "navamsa": "Aquarius",
+      "navamsa_abbr": "Aq",
+      "house": 2,
+      "status": "",
+      "combust": false,
+      "retrograde": false,
+      "eclipse": false,
+      "direct": true
+    }
+  },
+  "houses": {
+    "ascendant": {
+      "longitude": 69.02589341339532,
+      "sign": "Gemini",
+      "degree": 9.025893413395323,
+      "longitude_formatted": "9 Ge 1' 33.21\""
+    },
+    "cusps": [
+      69.02589341339532,
+      91.72353690360536,
+      115.97768128621388,
+      144.6729206854377,
+      178.92561197828854,
+      215.44745479388854,
+      249.02589341339535,
+      271.72353690360535,
+      295.97768128621385,
+      324.6729206854377,
+      358.92561197828854,
+      35.447454793888525
+    ]
+  },
+  "current_dasha": {
+    "maha_dasha": {
+      "planet": "Rahu",
+      "start": "2018-07-16T09:25:44+00:00",
+      "end": "2036-07-15T09:25:44+00:00"
+    },
+    "antara_dasha": {
+      "planet": "Saturn",
+      "start": "2023-08-21T09:25:44+00:00",
+      "end": "2026-06-27T09:25:44+00:00"
+    }
+  },
+  "current_transits": {
+    "date": "2025-07-10",
+    "time": "12:07:25 UTC",
+    "planets": {
+      "Sun": {
+        "longitude": 84.27668878062829,
+        "sign": "Gemini",
+        "sign_abbr": "Ge",
+        "degree": 24.276688780628294,
+        "longitude_formatted": "24 Ge 16' 36.08\"",
+        "nakshatra": "Punarvasu",
+        "nakshatra_abbr": "Puna",
+        "pada": 2,
+        "navamsa": "Taurus",
+        "navamsa_abbr": "Ta",
+        "status": "",
+        "combust": false,
+        "retrograde": false,
+        "eclipse": false,
+        "direct": true
+      },
+      "Moon": {
+        "longitude": 260.00230674733814,
+        "sign": "Sagittarius",
+        "sign_abbr": "Sg",
+        "degree": 20.002306747338142,
+        "longitude_formatted": "20 Sg 0' 8.30\"",
+        "nakshatra": "Purva Ashadha",
+        "nakshatra_abbr": "PSha",
+        "pada": 2,
+        "navamsa": "Virgo",
+        "navamsa_abbr": "Vi",
+        "status": "",
+        "combust": false,
+        "retrograde": false,
+        "eclipse": false,
+        "direct": true
+      }
+    }
+  },
+  "karakas": {
+    "Sun": "MK",
+    "Moon": "GK",
+    "Mars": "BK",
+    "Mercury": "DK",
+    "Jupiter": "AK",
+    "Venus": "AmK",
+    "Saturn": "PK"
+  },
+  "status_legend": {
+    "C": "Combust (too close to Sun)",
+    "D": "Direct motion",
+    "R": "Retrograde motion",
+    "E": "Eclipse (near lunar nodes)"
+  },
+  "api_endpoints": {
+    "birth_chart": "/api/calculate-chart",
+    "current_transits": "/api/current-transits",
+    "ayanamsas": "/api/ayanamsas",
+    "health": "/health"
+  }
+}
