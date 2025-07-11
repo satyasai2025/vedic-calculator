@@ -2,3 +2,8 @@ flask
 swisseph
 pytz
 timezonefinder
+gunicorn
+requests
+pyswisseph
+
+
