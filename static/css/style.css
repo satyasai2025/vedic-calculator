@@ -1,0 +1,26 @@
+body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+.card.bg-dark {
+    background-color: #23272b !important;
+    border-radius: 1em;
+}
+.table-dark {
+    background-color: #23272b !important;
+    color: #e0e0e0 !important;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #181818 !important;
+}
+.btn-primary {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+}
+.list-group-item.bg-dark {
+    background-color: #23272b !important;
+    color: #e0e0e0 !important;
+}
+.badge {
+    font-size: 1em;
+}
